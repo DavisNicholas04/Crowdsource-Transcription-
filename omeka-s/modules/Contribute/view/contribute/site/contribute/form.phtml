@@ -1,0 +1,357 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \Omeka\Api\Representation\SiteRepresentation $site
+ * @var \Omeka\Form\ResourceForm $form
+ * @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation|null $resource
+ * @var \Contribute\Api\Representation\ContributionRepresentation|null $contribution
+ * @var array $fields
+ * @var string $action "add" or "edit"
+ * @var string $submitLabel
+ */
+
+// See common/resource-values.
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+$escape = $plugins->get('escapeHtml');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+$formElement = $this->plugin('formElement');
+$setting = $this->plugin('setting');
+
+// Prepare resource selects.
+$valueTypes = ['resource' => 'items', 'resource:item' => 'items', 'resource:itemset' => 'item_sets', 'resource:media' => 'media'];
+$queries = $setting('contribute_property_queries', []);
+$resFunction = function ($res) {
+    return mb_substr($res->displayTitle(), 0, 80);
+};
+
+// The api manager is needed to create some form elements (resource select).
+$apiManager = $site->getServiceLocator()->get('Omeka\ApiManager');
+$hasValueSuggest = ($module = $site->getServiceLocator()->get('Omeka\ModuleManager')->getModule('ValueSuggest')) && $module->getState() === \Omeka\Module\Manager::STATE_ACTIVE;
+
+$form->prepare();
+
+$labelInfo = $this->setting('property_label_information');
+?>
+
+<div class="pl-3">
+    <?php // Templates for the fields according to the datatype. ?>
+    <div id="edit_value_template" class="value" style="display:none;">
+        <div class="value" lang="">
+            <textarea class="form-control input-value" data-value-key="@value" name="dcterms:title[__INDEX__][@value]" aria-labelledby="property-__PROPERTYID__-label"></textarea>
+        </div>
+    </div>
+    <div id="edit_resource_template" class="resource" style="display:none;">
+        <div class="value resource">
+            <select class="form-control input-value" data-value-key="@resource" name="dcterms:title[__INDEX__][@value]" aria-labelledby="property-__PROPERTYID__-label"><option value=""></option></select>
+        </div>
+    </div>
+    <div id="edit_uri_template" class="uri" style="display:none;">
+        <div class="value" data-data-type="uri" role="group">
+            <div class="input-body w-100">
+                <div class="input">
+                    <label class="value input-container">
+                        <?= $translate('URI') ?>:
+                        <input type="text" class="form-control value to-require" data-value-key="@uri" name="dcterms:title[__INDEX__][@uri]"/>
+                    </label>
+                </div>
+                <div class="input">
+                    <label class="value-label label-container">
+                        <?= $translate('Label') ?>:
+                        <textarea class="form-control value-label" rows="1" data-value-key="@label" name="dcterms:title[__INDEX__][@label]"></textarea>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php if ($hasValueSuggest): ?>
+    <div id="edit_valuesuggest_template" class="value_suggest" style="display:none;">
+        <div class="value value_suggest">
+            <input type="text" class="form-control valuesuggest-input" data-value-key="@id" name="dcterms:title[__INDEX__][@value]" data-data-type="" data-uri="" data-value="" value=""/>
+        </div>
+    </div>
+    <?php endif; ?>
+
+    <?= $this->form()->openTag($form) ?>
+
+    <?php $this->trigger("view.$action.form.before", ['form' => $form]); ?>
+
+    <?php // Display the edited resource, with edited or non-edited fields, plus the non-editable original fields. ?>
+    <?php foreach ($fields as $term => $field):
+        $index = 0;
+        $property = $field['property'];
+        // Don't display empty values that are not fillable.
+        if (empty($field['contributions']) && !$field['fillable']) continue;
+        ?>
+
+    <div class="property mb-3">
+        <?php // Display property label. ?>
+        <h4>
+            <?= isset($field['alternate_label']) ? $escape($field['alternate_label']) : $escape($translate($property->label())) ?>
+            <?php if ($labelInfo === 'term'): ?>
+            <span class="field-term">(<?= $escape($field['property']->term()) ?>)</span>
+            <?php elseif ($labelInfo === 'vocab'): ?>
+            <span class="field-term">(<?= $escape($property->vocabulary()->label()) ?>)</span>
+            <?php endif; ?>
+        </h4>
+        <div class="values">
+
+        <?php // Simple display of the value for properties that are not editable or without datatypes. ?>
+        <?php if (!$field['editable'] && !$field['fillable'] || !count($field['datatypes'])): ?>
+            <?php
+            /** @var \Omeka\Api\Representation\ValueRepresentation $value */
+            foreach ($field['values'] as $value):
+                $valueType = $value->type();
+                $isValueResource = strtok($valueType, ':') === 'resource';
+                $isPrivate = method_exists($value, 'isPublic') && !$value->isPublic();
+                $class = ['value'];
+                if ($isValueResource):
+                    $class[] = 'resource';
+                    $class[] = $escape($value->valueResource()->resourceName());
+                elseif ('uri' === $valueType):
+                    $class[] = 'uri';
+                endif;
+                if ($isPrivate):
+                    $class[] = 'private';
+                endif;
+                $language = $value->lang();
+                ?>
+            <div class="<?= implode(' ', $class) ?>" lang="<?= $escape($language) ?>">
+                <?php if ($language): ?>
+                <span class="language"><?= $language ?></span>
+                <?php endif; ?>
+                <?= $value->asHtml() ?>
+            </div>
+            <?php endforeach; ?>
+
+        <?php // Editable fields, that may have been edited or not. ?>
+        <?php else: ?>
+
+           <?php foreach ($field['contributions'] as $fieldContribute):
+                /** @var \Omeka\Api\Representation\ValueRepresentation $value */
+                $value = $fieldContribute['original']['value'];
+                if (!$value && !$field['fillable']) continue;
+
+                $valueType = $fieldContribute['type'];
+
+                $isValueSuggest = strpos($valueType, 'valuesuggest:') === 0 || strpos($valueType, 'valuesuggestall:') === 0;
+                if ($isValueSuggest && !$hasValueSuggest) continue;
+
+                $isValueResource = strtok($valueType, ':') === 'resource';
+                $original = $fieldContribute['original'];
+                $proposed = $fieldContribute['proposed'];
+                $isPrivate = $value && method_exists($value, 'isPublic') && !$value->isPublic();
+
+                // Value that is not editable.
+                if ($value && !$field['editable']):
+                    $val = strlen($fieldContribute['proposed']['@value']) ? $escape($fieldContribute['proposed']['@value']) : $value->asHtml();
+                    $class = ['value'];
+                    if ($isValueResource):
+                        $resourceValue = $value ? $value->valueResource() : null;
+                        $class[] = 'resource';
+                        $class[] = $escape($resourceValue->resourceName());
+                    elseif ('uri' === $valueType):
+                        $class[] = 'uri';
+                    endif;
+                    if ($isPrivate):
+                        $class[] = 'private';
+                    endif;
+                    $language = $value->lang();
+                ?>
+            <div class="<?= implode(' ', $class) ?>" lang="<?= $escape($language) ?>">
+                <?php if ($language): ?>
+                <span class="language"><?= $language ?></span>
+                <?php endif; ?>
+                <?= $value->asHtml() ?>
+            </div>
+                <?php
+
+                // Value that is editable or fillable.
+                else:
+                    // TODO Manage all types of data, in particular custom vocab and value suggest.
+                    switch ($valueType):
+                    case 'literal':
+                        $val = isset($proposed['@value']) ? $proposed['@value'] : $original['@value'];
+                        $class = ['value'];
+                        if ($isPrivate):
+                            $class[] = 'private';
+                        endif;
+                        $language = isset($proposed['@value']) ? null : ($original['value'] ? $original['value']->lang() : null);
+                        ?>
+            <div class="<?= implode(' ', $class) ?>" lang="<?= $escape($language) ?>">
+                <?php if ($language): ?>
+                <span class="language"><?= $language ?></span>
+                <?php endif; ?>
+                <textarea class="form-control input-value" data-value-key="@value" name="<?= $term . '[' . $index . '][@value]' ?>" aria-labelledby="property-<?= $property->id() ?>-label"><?= $escape($val) ?></textarea>
+            </div>
+                        <?php
+                        break;
+
+                    case $isValueResource:
+                        ?>
+            <div class="<?= implode(' ', $class) ?>" lang="<?= $escape($language) ?>">
+                <div class="value resource<?= $isPrivate ? ' private' : '' ?>">
+                        <?php if ($isPrivate): ?>
+                    <span class="private fa fa-eye-slash" aria-hidden="false" title="<?= $translate('private') ?>"></span>
+                        <?php endif; ?>
+                        <?php // Display the value when no query is set.
+                        if (isset($queries[$term])):
+                            // TODO Manage all resource types. Currently, items is forced when not set.
+                            $resourceValue = $value ? $value->valueResource() : null;
+                            $val = isset($proposed['@resource']) ? $proposed['@resource'] : $original['@resource'];
+                            $resourceName = isset($valueTypes[$valueType]) ? $valueTypes[$valueType] : 'items';
+                            $element = new \Omeka\Form\Element\ResourceSelect($term . '[' . $index . '][@resource]');
+                            $element
+                                ->setApiManager($apiManager);
+                            $element
+                                ->setResourceValueOptions($resourceName, $resFunction, $queries[$term]);
+                            $valueOptions = $element->getValueOptions();
+                            if ($resourceValue && !isset($valueOptions[$resourceValue->id()])):
+                                $element
+                                    ->setOption('prepend_value_options', [$resourceValue->id() => mb_substr($resourceValue->displayTitle(), 0, 80)])
+                                    ->setResourceValueOptions($resourceName, $resFunction, $queries[$term]);
+                            endif;
+                            $element
+                                ->setEmptyOption('')
+                                ->setAttributes([
+                                    'class' => 'form-control input-value chosen-select',
+                                    'required' => false,
+                                    'multiple' => false,
+                                    'data-value-key' => '@resource',
+                                    'aria-labelledby' => 'property-' . $property->id() . '-label',
+                                    'data-placeholder' => $translate('Select a resource…'),
+                                    'value' => $val,
+                                ]);
+                            echo $this->formElement($element);
+                        ?>
+                        <?php else: ?>
+                    <?= $value ? $value->asHtml() : $proposed['@value'] ?>
+                        <?php endif; ?>
+                </div>
+            </div>
+                        <?php
+                        break;
+
+                    case 'uri':
+                        $val = isset($proposed['@uri']) ? $proposed['@uri'] : $original['@uri'];
+                        $label = isset($proposed['@uri']) ? $proposed['@label'] : $original['@label'];
+                        ?>
+            <div class="value uri <?= $isPrivate ? 'private' : '' ?>" data-data-type="uri" role="group" style="display: flex;">
+                <div class="input-body w-100">
+                    <div class="input">
+                        <label class="value input-container">
+                            <?= $translate('URI') ?>:
+                            <input type="text" class="form-control value to-require" data-value-key="@id" name="<?= $term . '[' . $index . '][@uri]' ?> " value = "<?= $escapeAttr($val) ?>"/>
+                        </label>
+                    </div>
+                    <div class="input">
+                        <label class="value-label label-container">
+                            <?= $translate('Label') ?>:
+                            <textarea class="form-control value-label" rows="1" data-value-key="o:label" name="<?= $term . '[' . $index . '][@label]' ?>"><?= $escape($label) ?></textarea>
+                        </label>
+                    </div>
+                </div>
+            </div>
+                        <?php
+                        break;
+
+                    case $isValueSuggest:
+                        $val = isset($proposed['@uri']) ? $proposed['@uri'] : $original['@uri'];
+                        $label = isset($proposed['@uri']) ? $proposed['@label'] : $original['@label'];
+                        $class = ['value', 'value-suggest'];
+                        if ($isPrivate):
+                            $class[] = 'private';
+                        endif;
+                        $language = isset($proposed['@value']) ? null : ($original['value'] ? $original['value']->lang() : null);
+                        ?>
+            <div class="<?= implode(' ', $class) ?>" lang="<?= $escape($language) ?>">
+                <?php if ($language): ?>
+                <span class="language"><?= $language ?></span>
+                <?php endif; ?>
+                <input type="text" class="form-control valuesuggest-input" data-value-key="@id" name="<?= $term . '[' . $index . '][@uri]' ?>" data-data-type="<?= $escapeAttr($valueType) ?>" data-uri="<?= $escapeAttr($val) ?>" data-value="<?= $escapeAttr($label) ?>" value="<a href=&quot;<?= $escapeAttr($val) ?>&quot; target=&quot;_blank&quot;><?= $escapeAttr($label) ?></a>"/>
+            </div>
+                        <?php
+                        break;
+
+                    // Other datatypes are not editable.
+                    default:
+                        if ($value):
+                        ?>
+            <div class="value resource<?= $isPrivate ? ' private' : '' ?>">
+                <?= $value ? $value->asHtml() : $proposed['@value'] ?>
+            </div>
+                        <?php endif;
+                        break;
+                    endswitch;
+
+                endif;
+                ?>
+
+            <?php ++$index; ?>
+            <?php endforeach; ?>
+        </div>
+
+            <?php // Add buttons to add a new value for fillable properties. ?>
+            <?php if ($field['fillable']): ?>
+        <div class="inputs">
+            <div class="add-values default-selector" data-next-index="<?= $index ?>" data-next-term="<?= $term ?>">
+                <?php foreach ($field['datatypes'] as $datatype) switch($datatype):
+                case 'literal': ?>
+                <div class="add-value add-value-new float-left o-icon-add button"><?= $translate('Add value') ?></div>
+                <?php break;
+                case 'resource':
+                case 'resource:item':
+                case 'resource:itemset':
+                case 'resource:media':
+                    if (isset($queries[$term])):
+                        // Get the list of options from the core select element.
+                        $resourceName = $valueTypes[$datatype];
+                        $element = new \Omeka\Form\Element\ResourceSelect();
+                        $element
+                            ->setApiManager($apiManager);
+                        $element
+                            ->setResourceValueOptions($resourceName, $resFunction, $queries[$term]);
+                        // The order should be kept, but there is no order in a js array.
+                        $valueOptions = [];
+                        foreach ($element->getValueOptions() as $k => $v):
+                            $valueOptions[] = ['v' => $k, 't' => $v];
+                        endforeach;
+                ?>
+                <div class="add-value add-value-resource float-left button o-icon-uri" data-type="<?= $valueType ?>" data-placeholder="<?= $translate('Select a resource…')?>" data-value-options="<?= $escapeAttr(json_encode($valueOptions)) ?>"><?= $translate('Add linked resource') ?></div>
+                <?php endif;
+                    break;
+                case 'uri': ?>
+                <div class="add-value add-value-uri float-left button o-icon-uri" data-type="uri"><?= $translate('Add URI') ?></div>
+                <?php break;
+                case strpos($datatype, 'valuesuggest:') === 0 || strpos($datatype, 'valuesuggestall:') === 0: ?>
+                <div class="add-value add-value-value-suggest float-left button o-icon-uri" data-type="<?= $datatype ?>"><?= $translate('Add linked data') ?></div>
+                <?php break;
+                endswitch; ?>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+            <?php endif; ?>
+
+        <?php endif; ?>
+    </div>
+    <?php endforeach; ?>
+
+    <?= $formElement($form->get('csrf')) ?>
+
+    <?php $this->trigger("view.$action.form.after", ['form' => $form]); ?>
+
+    <div id="page-actions">
+        <?php if ($resource): ?>
+        <?= $this->hyperlink($translate('Go back to resource'), $this->url('site/resource-id', ['controller' => $this->params()->fromRoute('resource'), 'action' => 'show'], true), ['class' => 'btn btn-danger text-light', 'role' => 'button']) ?>
+        <?php else: ?>
+        <?php // echo $this->cancelButton() ?>
+        <?= $this->hyperlink($translate('Cancel'), $this->url('site/resource', ['controller' => $this->params()->fromRoute('resource'), 'action' => 'browse'], true), ['class' => 'btn btn-danger text-light', 'role' => 'button']) ?>
+        <?php endif; ?>
+        <button type="submit" name="edit-resource-submit" class="btn btn-primary"><?= $escape($submitLabel) ?></button>
+    </div>
+
+    <?= $this->form()->closeTag() ?>
+
+    <?php // echo $this->partial('common/resource-form-templates.phtml') ?>
+</div>

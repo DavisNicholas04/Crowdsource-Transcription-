@@ -1,0 +1,237 @@
+<?php
+$this->htmlElement('body')->appendAttribute('class', 'datascribe item browse');
+$canViewBatchUpdate = $dataset->userIsAllowed('datascribe_view_item_batch_update');
+$filters = [
+    [
+        'label' => $this->translate('All prioritized items'),
+        'value' => 'all_prioritized',
+    ],
+    [
+        'label' => $this->translate('All unlocked and new items'),
+        'value' => 'all_unlocked_and_new'
+    ],
+    [
+        'label' => $this->translate('All unlocked and in progress items'),
+        'value' => 'all_unlocked_and_in_progress'
+    ],
+    [
+        'label' => $this->translate('My new items'),
+        'value' => 'my_new'
+    ],
+    [
+        'label' => $this->translate('My in progress items'),
+        'value' => 'my_in_progress'
+    ],
+    [
+        'label' => $this->translate('My items that need review'),
+        'value' => 'my_need_review'
+    ],
+    [
+        'label' => $this->translate('My items that are not approved'),
+        'value' => 'my_not_approved'
+    ],
+    [
+        'label' => $this->translate('My items that are approved'),
+        'value' => 'my_approved'
+    ],
+];
+$invalidFilter = [
+    [
+        'label' => $this->translate('Items with values marked as invalid'),
+        'value' => 'has_invalid_values'
+    ],
+];
+if ($canViewBatchUpdate) {
+    $approvalNeedReviewFilters = [
+        [
+            'label' => $this->translate('All items that are not approved'),
+            'value' => 'all_not_approved'
+        ],
+        [
+            'label' => $this->translate('All items that are approved'),
+            'value' => 'all_approved'
+        ],
+        [
+            'label' => $this->translate('All items that need review'),
+            'value' => 'all_need_review'
+        ],
+        [
+            'label' => $this->translate('All items that need initial review'),
+            'value' => 'all_need_initial_review'
+        ],
+        [
+            'label' => $this->translate('All items that need re-review'),
+            'value' => 'all_need_rereview'
+        ],      
+    ];
+    $iApprovedFilters = [
+        [
+            'label' => $this->translate('Items I reviewed that need re-review'),
+            'value' => 'my_reviewed_and_need_review'
+        ],
+        [
+            'label' => $this->translate('Items I reviewed that are not approved'),
+            'value' => 'my_reviewed_and_not_approved'
+        ],
+        [
+            'label' => $this->translate('Items I reviewed that are approved'),
+            'value' => 'my_reviewed_and_approved'
+        ],      
+    ];
+    $filters = array_merge($approvalNeedReviewFilters, $invalidFilter, $iApprovedFilters, $filters);
+} else {
+    $filters = array_merge($invalidFilter, $filters);
+}
+?>
+
+<?php echo $this->pageTitle($dataset->name(), 1, $this->translate('DataScribe: Dataset'), $this->translate('Items')); ?>
+
+<div id="page-actions">
+    <?php echo $this->hyperlink($this->translate('Browse records'), $this->url('admin/datascribe-dataset-record', [], true), ['class' => 'button']); ?>
+    <?php if ($dataset->userIsAllowed('update')): ?>
+    <?php echo $dataset->link($this->translate('Edit dataset'), 'edit', ['class' => 'button']); ?>
+    <div id="page-action-menu">
+        <a href="#" class="expand button" aria-label="<?php echo $this->translate('Expand'); ?>"><?php echo $this->translate('More actions'); ?></a>
+        <ul class="collapsible">
+            <li><a href="#" class="sidebar-content" data-sidebar-selector="#sync-dataset"><?php echo $this->translate('Sync dataset'); ?></a></li>
+            <li><a href="#" class="sidebar-content" data-sidebar-selector="#validate-dataset"><?php echo $this->translate('Validate dataset'); ?></a></li>
+            <li><a href="#" class="sidebar-content" data-sidebar-selector="#export-dataset"><?php echo $this->translate('Export dataset'); ?></a></li>
+        </ul>
+    </div>
+    <?php endif; ?>
+</div>
+
+<?php echo $this->datascribe()->breadcrumbs(); ?>
+
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+    <?php echo $this->sortSelector([
+        [
+            'label' => $this->translate('Item #'),
+            'value' => 'id'
+        ],
+        [
+            'label' => $this->translate('Prioritized'),
+            'value' => 'prioritized'
+        ],
+        [
+            'label' => $this->translate('Submitted'),
+            'value' => 'submitted'
+        ],
+        [
+            'label' => $this->translate('Reviewed'),
+            'value' => 'reviewed'
+        ],
+        [
+            'label' => $this->translate('Title'),
+            'value' => 'title'
+        ],
+    ]); ?>
+    <?php echo $this->hyperlink($this->translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
+    <?php echo $this->filterSelector($filters); ?>
+</div>
+
+<?php if ($items): ?>
+
+<form method="post" id="batch-form">
+
+<?php if ($canViewBatchUpdate): ?>
+<div class="batch-inputs">
+    <select class="batch-actions-select" aria-label="<?php echo $this->translate('Batch actions'); ?>">
+        <option value="default"><?php echo $this->translate('Batch actions'); ?></option>
+        <option value="update-selected" disabled="true"><?php echo $this->translate('Edit selected'); ?></option>
+        <option value="update-all"><?php echo $this->translate('Edit all'); ?></option>
+    </select>
+    <div class="batch-actions">
+        <button type="button" class="default active" disabled="true"><?php echo $this->translate('Go'); ?></button>
+        <input type="submit" class="update-selected" name="update_selected" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $this->escapeHtml($this->url(null, ['action' => 'batch-edit'], true)); ?>">
+        <input type="submit" class="update-all" name="update_all" value="<?php echo $this->translate('Go'); ?>" formaction="<?php echo $this->escapeHtml($this->url(null, ['action' => 'batch-edit-all'], true)); ?>">
+        <input type="hidden" name="query" class="batch-query" value="<?php echo $this->escapeHtml(json_encode($this->params()->fromQuery())); ?>">
+    </div>
+</div>
+<?php endif; ?>
+
+<table class="tablesaw batch-edit" data-tablesaw-mode="stack">
+    <thead>
+        <tr>
+            <th class="row-select">
+                <?php if ($canViewBatchUpdate): ?>
+                <input type="checkbox" class="select-all" aria-label="<?php echo $this->translate('Select all'); ?>">
+                <?php endif; ?>
+                <span class="item-id"><?php echo $this->translate('Item #'); ?></span>
+            </th>
+            <th><?php echo $this->translate('Item'); ?></th>
+            <th><?php echo $this->translate('Last submitted'); ?></th>
+            <th><?php echo $this->translate('Last reviewed'); ?></th>
+            <th><?php echo $this->translate('Review status'); ?></th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($items as $item): ?>
+        <tr>
+            <td>
+                <?php if ($canViewBatchUpdate): ?>
+                <input type="checkbox" name="item_ids[]" value="<?php echo $item->id(); ?>" aria-label="<?php echo $this->translate('Select items'); ?>">
+                <?php endif; ?>
+                <?php if ($item->hasInvalidValues()): ?>
+                <?php $alertString = $this->translate('Has invalid values'); ?>
+                <span class="alert" title="<?php echo $alertString; ?>"><?php echo $alertString; ?></span>
+                <?php endif; ?>
+                <span class="item-id"><?php echo $item->id(); ?></span>
+            </td>
+            <td>
+              <?php echo $item->linkPretty(); ?>
+                <ul class="actions">
+                    <li><?php echo $this->hyperlink('', '#', [
+                        'data-sidebar-content-url' => $item->url('show-details'),
+                        'class' => 'o-icon-more sidebar-content',
+                        'data-sidebar-selector' => '#show-details',
+                        'title' => $this->translate('Details'),
+                    ]); ?></li>
+                </ul>
+            </td>
+            <td><?php echo $this->i18n()->dateFormat($item->submitted()); ?></td>
+            <td><?php echo $this->i18n()->dateFormat($item->reviewed()); ?></td>
+            <td><?php echo $this->translate($item->statusLabel()); ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+</form>
+
+<div class="browse-controls">
+    <?php echo $this->pagination(); ?>
+</div>
+
+<?php else: ?>
+<div class="no-resources">
+    <?php if (!$dataset->synced() && $this->userIsAllowed('Datascribe\Api\Adapter\DatascribeDatasetAdapter', 'create')): ?>
+    <p>
+        <?php echo sprintf(
+        $this->translate('No items found. %s'),
+        $this->hyperlink($this->translate('Sync this dataset.'), '#', ['class' => 'sidebar-content', 'data-sidebar-selector' => '#sync-dataset'])
+        ); ?>
+    <br>
+    <?php echo $this->translate('If you have recently synced, the sync job likely has not finished<br>and/or you need to refresh this page.'); ?>
+    </p>
+    <?php else: ?>
+    <p><?php echo $this->translate('No items found.'); ?></p>
+    <?php endif; ?>
+</div>
+<?php endif; ?>
+
+<div id="dataset-metadata" class="sidebar always-open">
+    <button type="button" class="sidebar-drawer collapse" aria-label="<?php echo $this->translate('Collapse'); ?>"></button>
+    <?php echo $this->partial('datascribe/admin/dataset/show-details') ?>
+</div>
+
+<div id="show-details" class="sidebar">
+    <?php echo $this->hyperlink('', '#', [
+        'class' => 'sidebar-close o-icon-close',
+        'title' => $this->translate('Close'),
+    ]); ?>
+    <div class="sidebar-content"></div>
+</div>
+
+<?php echo $this->partial('datascribe/admin/dataset/form-sidebars.phtml'); ?>

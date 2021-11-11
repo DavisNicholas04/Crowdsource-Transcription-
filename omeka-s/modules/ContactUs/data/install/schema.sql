@@ -1,0 +1,29 @@
+CREATE TABLE `contact_message` (
+    `id` INT AUTO_INCREMENT NOT NULL,
+    `owner_id` INT DEFAULT NULL,
+    `resource_id` INT DEFAULT NULL,
+    `site_id` INT DEFAULT NULL,
+    `email` VARCHAR(190) NOT NULL,
+    `name` VARCHAR(190) DEFAULT NULL,
+    `subject` LONGTEXT DEFAULT NULL,
+    `body` LONGTEXT NOT NULL,
+    `source` LONGTEXT DEFAULT NULL,
+    `media_type` VARCHAR(190) DEFAULT NULL,
+    `storage_id` VARCHAR(190) DEFAULT NULL,
+    `extension` VARCHAR(255) DEFAULT NULL,
+    `request_url` VARCHAR(1024) DEFAULT NULL,
+    `ip` VARCHAR(45) NOT NULL,
+    `user_agent` TEXT DEFAULT NULL,
+    `is_read` TINYINT(1) DEFAULT 0 NOT NULL,
+    `is_spam` TINYINT(1) DEFAULT 0 NOT NULL,
+    `newsletter` TINYINT(1) DEFAULT NULL,
+    `created` DATETIME NOT NULL,
+    UNIQUE INDEX UNIQ_2C9211FE5CC5DB90 (`storage_id`),
+    INDEX IDX_2C9211FE7E3C61F9 (`owner_id`),
+    INDEX IDX_2C9211FE89329D25 (`resource_id`),
+    INDEX IDX_2C9211FEF6BD1646 (`site_id`),
+    PRIMARY KEY(`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB;
+ALTER TABLE `contact_message` ADD CONSTRAINT FK_2C9211FE7E3C61F9 FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+ALTER TABLE `contact_message` ADD CONSTRAINT FK_2C9211FE89329D25 FOREIGN KEY (`resource_id`) REFERENCES `resource` (`id`) ON DELETE SET NULL;
+ALTER TABLE `contact_message` ADD CONSTRAINT FK_2C9211FEF6BD1646 FOREIGN KEY (`site_id`) REFERENCES `site` (`id`) ON DELETE SET NULL;
