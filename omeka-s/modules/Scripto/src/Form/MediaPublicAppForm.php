@@ -5,6 +5,7 @@ use Laminas\Form\Form;
 
 class MediaPublicAppForm extends Form
 {
+
     public function init()
     {
         $this->add([
@@ -54,4 +55,5 @@ class MediaPublicAppForm extends Form
             'required' => false,
         ]);
     }
+
 }
