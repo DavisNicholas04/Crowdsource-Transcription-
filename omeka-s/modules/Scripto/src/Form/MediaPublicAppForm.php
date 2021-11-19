@@ -1,8 +1,6 @@
 <?php
 namespace Scripto\Form;
-
 use Laminas\Form\Form;
-
 class MediaPublicAppForm extends Form
 {
 
@@ -16,6 +14,21 @@ class MediaPublicAppForm extends Form
                 'aria-label' => 'Wikitext', // @translate
             ],
         ]);
+        $myString;
+        //foreach($html->find('div[class=status-field]') as $element) 
+        //{
+          //      $myString = $element->innertext;
+        
+        //}
+	if (strcmp($myString, "Status: Approved") == 0){
+		$this->add([
+                        'type' => 'textarea',
+                        'name' => 'wikitext',
+                        'attributes' => [
+                                'disabled' => 'disabled',
+                        ],
+                ]);
+	}
 
         $this->add([
             'type' => 'text',
@@ -55,5 +68,7 @@ class MediaPublicAppForm extends Form
             'required' => false,
         ]);
     }
+
+
 
 }

@@ -16,7 +16,7 @@ $this->scripto()->postSubtitle(sprintf($this->translate('Original title: %s'), $
             <div class="protection-expiration"><strong><?php echo $this->translate('Expiration: '); ?></strong><?php echo $editAccess['expiry'] ? $this->i18n()->dateFormat($editAccess['expiry'], 'short', 'short') : $this->translate('Never'); ?></div>
         </div>
         <div class="status-field">
-            <div class="current-status"><strong><?php echo $this->translate('Status: '); ?></strong><?php echo $this->translate($sMedia->status()); ?></div>
+            <div id="manApproval" class="current-status"><strong><?php echo $this->translate('Status: '); ?></strong><?php echo $this->translate($sMedia->status()); ?></div>
             <label for="mark_complete"><?php echo $this->translate('Mark this revision as complete'); ?></label>
             <?php echo $this->formCheckbox($mediaForm->get('mark_complete')); ?>
         </div>
@@ -57,4 +57,5 @@ Scripto.enableMediaEditor(
     document.getElementsByClassName('wikitext-editor-text'),
     document.getElementsByClassName('wikitext-editor-buttons')
 );
+//Scripto.disableMediaEditor(document.getElementsByClassName('wikitest'));
 </script>

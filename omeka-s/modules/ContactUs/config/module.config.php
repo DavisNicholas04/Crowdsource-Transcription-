@@ -155,6 +155,9 @@ Your message:
 Subject: {subject}
 
 {message}', // @translate
+            'contactus_newsletter' => false,
+            'contactus_newsletter_label' => 'Subscribe to the newsletter', // @translate
+            'contactus_attach_file' => false,
             'contactus_antispam' => true,
             'contactus_questions' => [
                 'How many are zero plus 1 (in number)?' // @translate
@@ -201,7 +204,6 @@ Your message:
 Subject: {subject}
 
 {message}', // @translate
-                'consent_label' => 'I allow the site owner to store my name and my email to answer to this message.', // @translate
                 'newsletter' => false,
                 'newsletter_label' => 'Subscribe to the newsletter', // @translate
                 'attach_file' => false,

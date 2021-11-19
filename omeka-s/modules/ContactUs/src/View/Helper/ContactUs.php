@@ -65,7 +65,6 @@ class ContactUs extends AbstractHelper
             'heading' => null,
             'html' => null,
             'attach_file' => null,
-            'consent_label' => null,
             'newsletter_label' => null,
             'notify_recipients' => null,
         ];
@@ -76,7 +75,6 @@ class ContactUs extends AbstractHelper
         $translate = $view->plugin('translate');
 
         $attachFile = !empty($options['attach_file']);
-        $consentLabel = trim((string) $options['consent_label']);
         $newsletterLabel = trim((string) $options['newsletter_label']);
 
         $antispam = empty($user)
@@ -91,10 +89,6 @@ class ContactUs extends AbstractHelper
         $checkAnswer = '';
 
         // Sometime, questions/answers are not converted into array in form.
-        // Fix https://gitlab.com/Daniel-KM/Omeka-S-module-CleanUrl/-/issues/10.
-        // This is probably related to an old config that wasn't updated. So,
-        // waiting the admin to check an issue in the page and to resave it.
-        // TODO Remove this check and associated code during upgrade.
         if ($antispam) {
             $options['questions'] = $this->checkAntispamOptions($options['questions']);
         }
@@ -116,7 +110,6 @@ class ContactUs extends AbstractHelper
             /** @var \ContactUs\Form\ContactUsForm $form */
             $form = $this->formElementManager->get(ContactUsForm::class, [
                 'attach_file' => $attachFile,
-                'consent_label' => $consentLabel,
                 'newsletter_label' => $newsletterLabel,
                 'question' => $question,
                 'answer' => $answer,
@@ -125,7 +118,6 @@ class ContactUs extends AbstractHelper
             ]);
             $form
                 ->setAttachFile($attachFile)
-                ->setConsentLabel($consentLabel)
                 ->setNewsletterLabel($newsletterLabel)
                 ->setQuestion($question)
                 ->setAnswer($answer)
@@ -281,7 +273,6 @@ class ContactUs extends AbstractHelper
             }
             $form = $this->formElementManager->get(ContactUsForm::class, [
                 'attach_file' => $attachFile,
-                'consent_label' => $consentLabel,
                 'newsletter_label' => $newsletterLabel,
                 'question' => $question,
                 'answer' => $answer,
@@ -290,7 +281,6 @@ class ContactUs extends AbstractHelper
             ]);
             $form
                 ->setAttachFile($attachFile)
-                ->setConsentLabel($consentLabel)
                 ->setNewsletterLabel($newsletterLabel)
                 ->setQuestion($question)
                 ->setAnswer($answer)
@@ -443,13 +433,15 @@ class ContactUs extends AbstractHelper
         }
     }
 
-    protected function currentSite(): ?\Omeka\Api\Representation\SiteRepresentation
+    /**
+     * @return \Omeka\Api\Representation\SiteRepresentation
+     */
+    protected function currentSite()
     {
-        return $this->view->site ?? $this->view->site = $this->view
-            ->getHelperPluginManager()
-            ->get('Laminas\View\Helper\ViewModel')
-            ->getRoot()
-            ->getVariable('site');
+        $view = $this->getView();
+        return isset($view->site)
+            ? $view->site
+            : $view->getHelperPluginManager()->get('Laminas\View\Helper\ViewModel')->getRoot()->getVariable('site');
     }
 
     protected function getMailSubject(array $options = [])
