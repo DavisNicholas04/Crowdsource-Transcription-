@@ -1,0 +1,105 @@
+	</div>
+</div>
+
+<div class="col col-12">
+
+	<?php $map_id = uniqid(); ?>
+
+	<div class="exploratory-map-block row <?= $mapType ?>" data-markers="<?= $this->escapeHtml( json_encode( $markers ) ) ?>" data-basemap="<?= $this->escapeHtml( $basemaps[0]['url'] ) ?>" data-access-token="<?= $this->escapeHtml( $accessToken ) ?>" data-map-type="<?= $mapType ?>" id="<?= $map_id ?>">
+	
+		<div class="map-container">
+
+			<?php if( $mapType == 'story' ) { ?>
+				<div class="map-arrow" data-direction="prev"></div>
+				<div class="map-arrow" data-direction="next"></div>
+			<?php } ?>
+
+			<?php if( $mapType == 'layered' ) { ?>
+
+				<?php $colors = array(
+					'#4357AD',
+					'#E58F65',
+					'#98C1D9',
+					'#FFD25A',
+					'#C45BAA',
+					'#70A970',
+					'#EA657D'
+				); ?>
+
+				<div class="layer-forms">
+
+					<form class="layer-form layer-filter" data-layer-type="markers">
+						<h3>Filters</h3>
+						<input type="checkbox" name="markers" value="Landmarks" id="type-landmarks" checked />
+						<label for="type-landmarks">Landmarks</label>
+						<?php foreach ( $types as $index => $value ) { ?>
+							<input type="checkbox" name="markers" value="<?= $value ?>" id="type-<?= $index; ?>" checked />
+							<label for="type-<?= $index; ?>" style="color: <?= $colors[$index] ?>">
+								<span><?= $value; ?></span>
+							</label>
+						<?php } ?>
+					</form>
+
+					<form class="layer-form layer-selector" data-layer-type="overlay">
+						<h3>Historicals maps</h3>
+						<!-- <input type="checkbox" name="overlay" value="" id="overlay-null"/> -->
+						<?php foreach ( $overlays as $index => $value) { ?>
+							<input class="pseudo-radio" type="checkbox" name="overlay" value="<?= $value['url'] ?>" id="overlay-<?= $index ?>"/>
+							<label for="overlay-<?= $index ?>"><?= $value['name'] ?></label>
+						<?php } ?>
+					</form>
+
+					<form class="layer-form layer-selector" data-layer-type="basemap">
+						<h3>Basemaps</h3>
+						<?php foreach ( $basemaps as $index => $value) { ?>
+							<input type="radio" name="basemap" value="<?= $value['url'] ?>" id="basemap-<?= $index ?>" <?= $index === 0 ? "checked" : null ?>/>
+							<label for="basemap-<?= $index ?>"><?= $value['name'] ?></label>
+						<?php } ?>
+					</form>
+					
+				</div>
+			<?php } ?>
+
+		</div>
+
+		<div class="item-showcase <?= $mapType == 'layered' ? 'sort-list' : ''; ?>">
+			<?php if( $mapType == 'layered' ) { ?>
+				<div class="row row-header">
+					<div class="col-3 col-header sort" data-sort="date"><h3>Date</h3></div>
+					<div class="col-6 col-header sort" data-sort="title"><h3>Location name</h3></div>
+					<div class="col-3 col-header sort" data-sort="type"><h3>Type</h3></div>
+				</div>
+				<ul class="item-rows list">
+					<?php foreach ( $markers as $markerIndex => $marker ) {
+						$item = $marker['item'];
+						if( $marker['date'] ) {
+							$date = date_create( $marker['date'] );
+							$date_str = date_format( $date, 'F d, Y' );
+						} else {
+							$date_str = '';
+						}
+						if( isset( $marker['lng'] ) && isset( $marker['lat'] ) ) { ?>
+							<li class="item row <?= $marker['type'] == 'Landmarks' ? 'hidden' : '' ?>" data-index="<?= ( $markerIndex + 1 ) ?>" data-lat="<?= $marker['lat'] ?>" data-lng="<?= $marker['lng'] ?>">
+								<div class="col-3 date"><?= $date_str ?></div>
+								<div class="col-6 title"><?= $marker['title'] ?></div>
+								<div class="col-3 type"><?= $marker['type'] ?></div>
+							</li>
+						<?php }
+					} ?>
+				</ul>
+			<?php } else {
+				foreach ( $markers as $markerIndex => $marker ) {
+					$item = $marker['item'];
+					if( isset( $marker['lng'] ) && isset( $marker['lat'] ) ) { ?>
+						<div class="item col-6 col-md-4 col-lg-3" data-index="<?= ( $markerIndex + 1 ) ?>"  data-lng="<?= $marker['lng'] ?>" data-lat="<?= $marker['lat'] ?>">
+							<span class="title"><?= $marker['title'] ?></span>
+						</div>
+				<?php }
+				}
+			} ?>
+		</div>
+	</div>
+</div>
+<div class="col col-4"></div>
+<div class="col col-8">
+	<div class="column">

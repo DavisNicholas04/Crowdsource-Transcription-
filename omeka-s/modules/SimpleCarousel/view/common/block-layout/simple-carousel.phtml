@@ -1,0 +1,397 @@
+<?php
+$this->headLink()->appendStylesheet('//unpkg.com/swiper/swiper-bundle.min.css');
+$this->headLink()->appendStylesheet($this->assetUrl('css/carousel.css?v=2', 'SimpleCarousel'));
+$this->headScript()->appendFile('//unpkg.com/swiper/swiper-bundle.min.js');
+?>
+
+<div style="position:relative;" class="<?php echo $blockContainerClass; ?> simple-carousel" id="simpleCarousel<?php echo $block_id; ?>">
+
+    <?php if(!empty($title)): ?>
+        <?php echo $title; ?>
+    <?php endif; ?>
+
+    <div class="outer-container">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <?php
+                foreach ($items as $item) { ?>
+                    <?php if($layout == 'caption_left' || $layout == 'caption_right'): ?>
+                        <div class="swiper-slide">
+                            <div class="swiper-lazy-preloader"></div>
+                            <div class="slide-flex-container">
+                                <div class="slide-content">
+                                    <div class="slide-text">
+                                        <div class="slide-title"><?php echo $item->title; ?></div>
+                                        <div class="slide-subtitle"><?php echo $item->subtitle; ?></div>
+                                    </div>
+                                </div>
+                                <div class="slide-image">
+                                    <div class="slide-image-bg swiper-lazy" data-background="<?php echo $item->url; ?>"></div>
+                                    <div class="gradient-bg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div data-background="<?php echo $item->url; ?>" class="swiper-slide swiper-lazy">
+                            <div class="swiper-lazy-preloader"></div>
+                            <div class="slide-content">
+                                <div class="slide-text">
+                                    <div class="slide-title"><?php echo $item->title; ?></div>
+                                    <div class="slide-subtitle"><?php echo $item->subtitle; ?></div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <?php
+                } ?>
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+
+            <!-- If we need navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+
+    <?php $this->placeholder('pluginStyles'.$block_id)->captureStart(); ?>
+        .simple-carousel {
+            margin-bottom: 15px;
+        }
+
+        .slide-text p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper-button-prev, .swiper-button-next {
+            margin-top: 0;
+            margin-bottom: 0;
+            top: 0;
+            height: 100%;
+            color: #fff;
+            outline: none;
+        }
+
+        .swiper-button-next:after, .swiper-button-prev:after {
+            font-size: 24px;
+        }
+
+        .swiper-button-prev, .swiper-container-rtl .swiper-button-next {
+            left: 4%;
+        }
+
+        .swiper-button-next, .swiper-container-rtl .swiper-button-prev {
+            right: 4%;
+        }
+
+        #simpleCarousel<?php echo $block_id; ?> .swiper-container {
+            height: <?php echo $height ?>;
+            max-height: <?php echo $height ?>;
+        }
+
+        <?php if($layout == 'caption_left' || $layout == 'caption_right'): ?>
+            #simpleCarousel<?php echo $block_id; ?> .swiper-container {
+                height: auto;
+                max-height: none;
+            }
+            #simpleCarousel<?php echo $block_id; ?> .slide-image {
+                height: auto !important;
+                overflow: hidden;
+                position: relative;
+            }
+            #simpleCarousel<?php echo $block_id; ?> .slide-image:after {
+                height: 0;
+                overflow: hidden;
+                padding-top: 75%;
+                position: relative;
+                content: ' ';
+                width: 100%;
+                display: block;
+                z-index: -1;
+            }
+            #simpleCarousel<?php echo $block_id; ?> .slide-image-bg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                max-height: none;
+                background-size: cover;
+                background-position: center;
+                box-shadow: inset 0 0 100px black;
+            }
+            @media screen and (max-width: 479px) {
+                #simpleCarousel<?php echo $block_id; ?> .swiper-container {
+                    height: auto;
+                }
+            }
+        <?php endif; ?>
+
+        @media screen and (max-width: 479px) {
+            #simpleCarousel<?php echo $block_id; ?> .swiper-container {
+                max-height: <?php echo $mobile_height ?>;
+            }
+        }
+
+        .slide-title {
+            font-size: 1.2em;
+        }
+
+        .slide-text > div {
+            margin-top: 0.5em;
+            line-height: 1.5em;
+        }
+
+        <?php if(!empty($captionFontSizeDesktop)): ?>
+            #simpleCarousel<?php echo $block_id; ?> .slide-text {
+                font-size: <?php echo $captionFontSizeDesktop; ?>
+            }
+        <?php endif; ?>
+
+        <?php if(!empty($captionFontSizeMobile)): ?>
+            @media screen and (max-width: 479px) {
+                #simpleCarousel<?php echo $block_id; ?> .slide-text {
+                    font-size: <?php echo $captionFontSizeMobile; ?>
+                }
+            }
+        <?php endif; ?>
+
+        <?php
+        $align_items_webkit = 'start';
+        $align_items = 'flex-start';
+
+        $align_content_webkit = 'start';
+        $align_content = 'flex-start';
+
+        switch($captionPosX) {
+            case 'left':
+            default:
+                break;
+            case 'middle':
+                $align_items_webkit = 'center';
+                $align_items = 'center';
+                break;
+            case 'right':
+                $align_items_webkit = 'end';
+                $align_items = 'flex-end';
+                break;
+        }
+
+        switch($captionPosY) {
+            case 'top':
+            default:
+                break;
+            case 'middle':
+                $align_content_webkit = 'center';
+                $align_content = 'center';
+                break;
+            case 'bottom':
+                $align_content_webkit = 'end';
+                $align_content = 'flex-end';
+                break;
+        }
+        ?>
+
+        #simpleCarousel<?php echo $block_id; ?> .slide-flex-container {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            background-color: black;
+            height: 100%;
+        }
+        #simpleCarousel<?php echo $block_id; ?> .slide-flex-container .slide-image, #simpleCarousel<?php echo $block_id; ?> .slide-flex-container .slide-image img {
+            max-height: 100%;
+            width: auto;
+            height: auto;
+        }
+
+        #simpleCarousel<?php echo $block_id; ?> .slide-flex-container .slide-image {
+            max-width: 55%;
+            font-size: 0;
+            line-height: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+
+        #simpleCarousel<?php echo $block_id; ?> .slide-content {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-flex: 1;
+            -ms-flex: 1;
+            flex: 1;
+            width: 100%;
+        }
+
+        <?php if($layout == 'full'): ?>
+            #simpleCarousel<?php echo $block_id; ?> .slide-content {
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                -webkit-box-pack: <?php echo $align_content_webkit; ?>;
+                -ms-flex-pack: <?php echo $align_content_webkit; ?>;
+                justify-content: <?php echo $align_content; ?>;
+                -webkit-box-align: <?php echo $align_items_webkit; ?>;
+                -ms-flex-align: <?php echo $align_items_webkit; ?>;
+            }
+        <?php endif; ?>
+
+        #simpleCarousel<?php echo $block_id; ?> .slide-text {
+            padding-left: <?php echo $horizontalPadding; ?>;
+            padding-right: <?php echo $horizontalPadding; ?>;
+            padding-top: <?php echo $verticalPadding; ?>;
+            padding-bottom: <?php echo $verticalPadding; ?>;
+            width: 100%;
+        }
+
+        <?php if($layout == 'caption_right'): ?>
+            #simpleCarousel<?php echo $block_id; ?> .slide-flex-container {
+                -webkit-box-orient: horizontal;
+                -webkit-box-direction: reverse;
+                -ms-flex-direction: row-reverse;
+                flex-direction: row-reverse;
+            }
+        <?php endif; ?>
+
+
+        <?php if($layout == 'caption_right'): ?>
+            #simpleCarousel<?php echo $block_id; ?> .gradient-bg {
+                right: 0;
+                left: auto;
+                background-image: linear-gradient(to left, rgba(0,0,0,1), rgba(0,0,0,0));
+            }
+        <?php elseif($layout == 'caption_left'): ?>
+            #simpleCarousel<?php echo $block_id; ?> .gradient-bg {
+                left: 0;
+                right: auto;
+                background-image: linear-gradient(to right, rgba(0,0,0,1), rgba(0,0,0,0));
+            }
+        <?php endif; ?>
+
+        <?php if($layout == 'caption_left' || $layout == 'caption_right'): ?>
+            #simpleCarousel<?php echo $block_id; ?> .slide-image {
+                position: relative;
+                overflow:hidden;
+            }
+            #simpleCarousel<?php echo $block_id; ?> .gradient-bg {
+                position: absolute;
+                width: 2%;
+                top: 0;
+                bottom: 0;
+            }
+            #simpleCarousel<?php echo $block_id; ?> .slide-content {
+                align-self: <?php echo $align_content; ?>;
+            }
+            @media screen and (max-width: 479px) {
+                #simpleCarousel<?php echo $block_id; ?> .slide-flex-container {
+                    -webkit-box-orient: vertical;
+                    -webkit-box-direction: reverse;
+                    -ms-flex-direction: column-reverse;
+                    flex-direction: column-reverse;
+                }
+                #simpleCarousel<?php echo $block_id; ?> .slide-flex-container .slide-image {
+                    max-width: 100%;
+                    max-height: 60%;
+                }
+                #simpleCarousel<?php echo $block_id; ?> .gradient-bg {
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: auto;
+                    bottom: 0;
+                    width: 100%;
+                    height: 3%;
+                    background-image: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
+                }
+            }
+        <?php endif; ?>
+
+        <?php if($captionPosX == 'middle'): ?>
+        #simpleCarousel<?php echo $block_id; ?> .slide-content {
+            text-align: center;
+        }
+        <?php elseif($captionPosX == 'right'): ?>
+        #simpleCarousel<?php echo $block_id; ?> .slide-content {
+            text-align: right;
+        }
+        <?php endif; ?>
+
+        <?php if(!empty($captionColor)): ?>
+            #simpleCarousel<?php echo $block_id; ?> .slide-content {
+                color: <?php echo $captionColor; ?>
+            }
+        <?php endif; ?>
+
+        <?php echo $customCss; ?>
+    <?php $this->placeholder('pluginStyles'.$block_id)->captureEnd() ?>
+
+    <?php $this->headStyle()->prependStyle($this->placeholder('pluginStyles'.$block_id)); ?>
+
+	<script>
+	$(document).ready(function() {
+        var mySwiper = new Swiper('#simpleCarousel<?php echo $block_id; ?> .swiper-container', {
+            // Optional parameters
+            loop: <?php echo $loop ?>,
+            <?php if($layout == 'caption_left' || $layout == 'caption_right'): ?>
+            autoHeight: true,
+            <?php endif; ?>
+            <?php
+            if ($autoSlide == true) { ?>
+                autoplay: {
+                    delay: <?php echo $autoSlideInt; ?>,
+                    disableOnInteraction: false
+                },<?php
+            } ?>
+            preloadImages: false,
+            lazy: {
+                loadPrevNext: true,
+                loadPrevNextAmount: 1,
+                loadOnTransitionStart: true
+            },
+            speed: <?php echo $duration ?>,
+            slidesPerView: 1,
+            loopedSlides: 3,
+
+            breakpoints: {
+                // when window width is >= 480px
+                480: {
+                    slidesPerView: <?php echo ($perPage > 2)? 2 : 1 ?>,
+                    watchSlidesVisibility: <?php echo ($perPage > 2)? 'true' : 'false' ?>,
+                },
+                // when window width is >= 640px
+                640: {
+                    slidesPerView: <?php echo $perPage ?>,
+                    watchSlidesVisibility: true,
+                }
+            },
+
+            // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+                dynamicBullets: true,
+            },
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+
+            <?php if($perPage == 1): ?>
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            <?php endif; ?>
+        })
+	});
+	</script>
+</div>

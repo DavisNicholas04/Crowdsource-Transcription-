@@ -1,6 +1,8 @@
 <?php
 namespace Scripto\Form;
 use Laminas\Form\Form;
+use Scripto\Api\Representation\ScriptoMediaRepresentation as S;
+include_once ($_SERVER['DOCUMENT_ROOT']."/omeka-s/modules/Scripto/src/Api/Representation/ScriptoMediaRepresentation.php");
 class MediaPublicAppForm extends Form
 {
 
@@ -14,21 +16,26 @@ class MediaPublicAppForm extends Form
                 'aria-label' => 'Wikitext', // @translate
             ],
         ]);
-        $myString;
-        //foreach($html->find('div[class=status-field]') as $element) 
+        //$myString;
+ 
+        //foreach($html->find('div[id=manApproval]') as $element) 
         //{
           //      $myString = $element->innertext;
         
         //}
-	if (strcmp($myString, "Status: Approved") == 0){
-		$this->add([
-                        'type' => 'textarea',
-                        'name' => 'wikitext',
-                        'attributes' => [
-                                'disabled' => 'disabled',
-                        ],
-                ]);
-	}
+	//$smr = new ScriptoMediaRepresentation();
+	
+	//$obj = new S/;
+	//$obj = new S();
+	//if (strcmp($obj/*->status()*/, "Approved") == 0){
+	//	$this->add([
+        //                'type' => 'textarea',
+        //                'name' => 'wikitext',
+        //                'attributes' => [
+        //                        'disabled' => 'disabled',
+        //                ],
+        //        ]);
+	//}
 
         $this->add([
             'type' => 'text',
@@ -72,3 +79,4 @@ class MediaPublicAppForm extends Form
 
 
 }
+?>

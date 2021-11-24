@@ -506,3 +506,4 @@ class ScriptoMediaRepresentation extends AbstractEntityRepresentation
         return $sizeOk && $imageOk;
     }
 }
+?>
