@@ -5,11 +5,17 @@ $item = $media->item();
 $this->htmlElement('body')->appendAttribute('class', 'media resource show'); ?>
 
 <?php echo $this->pageTitle($media->displayTitle(), 2); ?>
-<h3><?php echo $translate('Media'); ?></h3>
+<h3 style="display: flex; justify-content: center; align-items: center;"><?php echo $translate('Media'); ?></h3>
 <?php $this->trigger('view.show.before'); ?>
 <p class="media-parent-item">
     <?php echo sprintf($translate('Part of %s'), $item->link($item->displayTitle())); ?>
 </p>
-<?php echo $media->render(); ?>
-<?php echo $media->displayValues(); ?>
-<?php $this->trigger('view.show.after'); ?>
+<div class="media-content">
+	<div class="media-img">
+		<?php echo $media->render(); ?>
+	</div>
+	<div class="media-values">
+		<?php echo $media->displayValues(); ?>
+	</div>
+	<?php $this->trigger('view.show.after'); ?>
+</div>
