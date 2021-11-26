@@ -18,16 +18,16 @@ $this->scripto()->postSubtitle(sprintf($this->translate('Original title: %s'), $
     </div>
     <div class="media html">
         <div class="copy">
-            <h3><?php echo $this->scripto()->translate($project->contentType(), 'HTML'); ?></h3>
+            <h3><?php echo $this->scripto()->translate($project->contentType(), 'Transciption'); ?></h3>
             <?php $pageHtml = $sMedia->pageHtml(0); ?>
             <?php echo $pageHtml  ? $pageHtml : sprintf('<span>[%s]</span>', $this->scripto()->translate($project->contentType(), 'No HTML')); ?>
         </div>
         <?php $displayValues = $media->displayValues(); ?>
         <?php if ($displayValues): ?>
-        <div class="media metadata">
+        <!-- <div class="media metadata">
             <h3><?php echo $this->translate('Metadata'); ?></h3>
             <?php echo $displayValues; ?>
-        </div>
+        </div> -->
         <?php endif; ?>
     </div>
 </div>

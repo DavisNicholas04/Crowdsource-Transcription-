@@ -5,10 +5,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Saira+Semi+Condensed&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ruda:wght@700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Bitter:wght@600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
-
-
 *{
     box-sizing:border-box
 }
@@ -67,14 +63,7 @@
 
 }
 
-.user-toggle.page-link.menu-toggle:after{
-	color: #e77433;
-}
-.user-toggle.page-link.menu-toggle:hover:after{
-	color: #007B3F;
-}
-
-.page-link{
+.page-link {
    	color: #fff !important;
    	text-decoration: none !important;
    	margin-left: 10px;
@@ -84,64 +73,20 @@
 }
 
 
-.page-link:hover, .subNav-guidelines a:hover, .subNav-browseItems a:hover{
+.page-link:hover{
    	opacity: 0.8;
         color: #ff883c !important;	
 }
-input[name="scripto-logout"]{
-	color: #fff !important;
-   	font-family: 'Ruda', sans-serif !important;
-   	font-weight: bold !important;
-   	text-decoration: none !important;
-	border: 1px solid #000 !important;
-	border-radius: 5px !important;
-	padding: 6px 10px !important;
 
-}
-input[name="scripto-logout"]:hover{
-    	border: 1px solid #fff !important;
-	opacity: 0.9 !important;
-	background-color: #e77433 !important;
-	color: #000 !important;
-	
-}
-.subNav-guidelines a, .subNav-browseItems a{
-   	color: #fff !important;
-   	text-decoration: none !important;
-   	margin-left: 10px;
-	font-family: 'Ruda', sans-serif;
-	font-weight: bold;
-	font-size: 1em;
-}
-
-#scripto-search input[name="search"]{
-	background: #000 !important;
-}
-
-#scripto-search button{
-	background: #000;
-	color: #fff;
-	border: 1px solid #fff;
-	font-family: 'Ruda', sans-serif;
-	padding: 6px 10px;
-}
-
-#scripto-search button:hover{
-	opacity: 0.85;
-	background-color: #e77433;
-	color: #000;
-}
-
-
-/*--------------Post Content Project Page---------------*/
 .post-header{
+	background: #000 !important;
 }
 
 .post-title{
     	display: flex;
     	justify-content: center;
     	align-items: center;
-    	text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25); 
+    	text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25); 
     	font-size: 2em;
     	margin: 40px -50px 80px -50px;
     	background: #4D535C;
@@ -163,296 +108,37 @@ input[name="scripto-logout"]:hover{
 }
 
 .resource-meta a{
-    	text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25); 
-    	font-size: 20px;
+    	text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25); 
+    	font-size: 1.3em;
     	margin: 0 0 10px 15px;
-    	color: #e67332 !important;
+    	color: #63BAAA !important;
     	padding: 10px 0;
-    	font-family: 'Bitter', serif;
+    	font-family: 'Patua One', cursive;
     	text-decoration: none !important;
 }
 
 .resource-meta a:hover{
     	opacity: 0.85;
-	color: #007B3F !important;
 }
 
 .resource-meta .description{
     	margin: 10px 30px;
-    	font-family: 'Lora', serif;
-    	font-size: 16px;
-	line-height: 24px;
+    	text-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
+    	font-family: 'Saira Semi Condensed', sans-serif;
+    	font-size: 1.2em;
     	overflow: hidden;
-    	max-height: 70px;
-	position: relative;
-}
-
-/*------------Item Page--------------*/
-.project.resource-metadata{
-	width: 90% !important;
-	font-size: 16px;
-	max-height: 100px;
-	overflow: auto;
-	overflow-x: hidden;	
-	font-family: 'Lora', serif;
-	margin: 0 auto;
-	border: none !important;
-	padding: 0;
-}
-.item.resource-list h3{
-	margin-right: 60px;
-	border-top: 1px solid #ebebea;
-	font-family: 'Ruda', serif;
-	text-shadow: 0 1px 1px rgba(0 0 0 0.25);
-	display: flex;
-	justify-content: center;
-	font-size: 2em;
-	font-weight: bold;
-	
-}
-.layout-label{
-	font-family: 'Lora', serif;
-	font-weight: bold;
-}
-
-a.sorting-heading.menu-toggle, a.filtering-heading.menu-toggle{
-	color: #000;
-	font-size: 14.5px;
-	font-family: 'Lora', serif;
-	line-height: 24px;
-	font-weight: bold;
-}
-
-a.sorting-heading.menu-toggle:hover, a.filtering-heading.menu-toggle:hover{
-	text-decoration: none;
-	color: #e74433;
-}
-.resource-tile h4 a{
-	color: #e77433;
-	font-family: 'Lora', serif;
-	font-weight: bold;
-}
-
-.resource-tile h4 a:hover{
-	text-decoration: none;
-	color: #007b3f;
-}
-.resource-tile a img:hover{
-	opacity: 0.85;
+    	overflow-x: hidden;
+    	height: 70px;
 }
 
 
-.pagination{
-	margin-right: 60px;
-}
-.resource-grid{
-	max-height: 685px;
-	overflow: auto;
-}
-
-/*-------------Media Page-----------*/
-.resource-metadata{
-	width: 29% !important;
-	max-height: 650px;
-	overflow: auto;
-	overflow-x: hidden;
-	padding: 23px 0;
-	margin: 24px 0;
-	border-right: 1px solid #ebebea;
-}
-.resource-metadata .property .values .value {
-	max-height: 150px;
-	overflow: auto;
-	overflow-x: hidden;
-	text-shadow: 0 1px 1px rgba(0 0 0 0.25) !important;
-	font-size: 14.5px;
-	font-family: 'Lora', serif;
-	line-height: 24px;
-}
-
-.resource-metadata .property h4 {
-	font-size: 20px;
-	font-family: 'Bitter', serif;
-	line-height: 24px;
-}
-.uri-value-link{
-	color: #e77433;
-}
-.uri-value-link:hover{
-	color: #007b3f;
-	text-decoration: none;
-}
-.uri-value-link:hover{
-	color: #007b3f;
-	text-decoration: none;
-}
-.media.resource-list{
-	max-height: 700px;
-	overflow: auto;
-	overflow-x: hidden;
-}
-
-.edit-link{
-	font-family: 'Lora', serif;
-	font-size: 16px;
-	font-weight: bold;
-}
-.edit-link:hover{
-	text-decoration: none;
-	opacity: 0.85;
-	color: #2F4858;
-}
-
-/*-------------Transcribe page-------*/
-.post-title a {
-	color: #fff !important;
-}
-.post-title a:hover{
-	text-decoration: none;
-}
-
-.post-header .post-subtitle{
-	margin-left: 45px;
-	font-weight: bold;
-}
-
-.post-subtitle a:hover {
-	text-decoration: none;
-	color: #2F4858;
-}
-.tab-actions a {
-	font-family: 'Lora', serif;
-	font-size: 14.5px;
-	font-weight: bold;
-}
-.tab-actions a:hover{
-	text-decoration: none;
-	opacity: 0.85;
-	color: #2f4858;
-}
-
-.media.html .copy h3{
-	font-weight: bold;
-}
-
-
-.media.html .copy p{
-	font-family: 'Lora', serif;
-	max-height: 708px;
-	overflow: auto;
-	overflow-x: hidden;
-}
-
-.media.metadata{
-	max-height: 300px;
-	overflow: auto;
-	overflow-x: hidden;
-	padding: 23px 0;
-	margin: 24px 0;
-	border-right: 1px solid #ebebea;
-}
-.media-render img {
-	max-height: 850px;
-}
-
-/*-------------Create Account Page --*/
-#createaccountform{
-	margin: 0 auto;
-}
-#createaccountform input[name="submit"]{
-	font-family: 'Ruda', sans-serif;
-	background: #e77433;
-	color: #fff;
-	border: none;
-	border-radius: 5px;
-	font-weight: bold;
-	font-size: 1.1em;
-	margin: 25px 0 0 30% !important;
-	padding: 6px 8px;
-}
-
-#createaccountform input[name="submit"]:hover{
-	color: #000;
-	opacity: 0.85;
-}
-
-/*-------------Footer----------------*/
-.scripto-footer{
-	position: relative;
-	display: flex;
-	flex-direction: column;
-    	text-shadow: 0px 1.5px 1.5px rgba(0, 0, 0, 0.25);
-        font-family: 'Ruda', sans-serif;
-	font-size: 0.8em;
-	margin: 80px auto 0;
-	padding: 0 24px;
-
-}
-.sub-footer{
-	position: relative;
-    	margin: 10px 0;
-        border-top: 1px solid #dfdfdf;
-}
-
-.sub-footer a img {
-	height: 80px;
-	width: 212.39px;
-}
-
-.footer-branding-logo{
-	margin: 15px 0 0 45px;
-}
-.footer-branding-logo:hover{
-	opacity: 0.85;
-}
-
-.footer-branding{
-	position: absolute;
-	top: 10px;
-	right: 0;
-	display: flex;
-	flex-direction: column;
-	margin: 15px 60px 0 0;
-	
-}
-
-.footer-branding a {
-	color: #000 !important;
-	text-shadow: 0 1px 1px rgba(0,0,0, 0.25);
-	font-size: 1.15em;
-	font-weight: light;
-	font-family: 'Ruda', sans-serif;
-	line-height: 24px;
-}
-
-.footer-branding a:hover {
-	color: #e77433 !important;
-	text-decoration: none;
-}
-
-.info-wrapper{
-	position: relative;
-	border-top: 1px solid #dfdfdf;
-	padding-bottom: 30px;
-}
-
-.info-copyrights{
-	position: absolute;
-	right: 0;
-	margin: 10px 60px 0 0;
-	font-family: 'Ruda', sans-serif;
-}
-
-.footer-social img {
-	margin-right: 3px;
-}
-
-.info-social {
-	margin: 10px 0 0 45px;
-}
-
-.info-social img:hover{
-	opacity: 0.8;
+footer{
+    	display: flex;
+    	justify-content: center;
+    	align-items: center;
+    	text-shadow: 0 2px 2px rgba(0,0,0,0.25);
+    	font-family: 'Ruda', sans-serif;
+    	font-size: 0.7em;
 }
 
 /* total width */
@@ -1013,8 +699,9 @@ ul.user-menu{
     text-decoration:underline
 }
 .project-nav{
+    border-top:1px solid #e8e8e8;
     clear:both;
-    margin-right: 30px;
+    margin:0 -30px;
     display:flex;
     justify-content:flex-end;
     padding-top:7.5px;

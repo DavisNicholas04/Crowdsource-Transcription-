@@ -27,35 +27,37 @@ $this->headScript()->appendFile($this->assetUrl('js/public-app.js', 'Scripto'));
         <div class="wrapper">
 	  <!-- <?php echo $this->hyperlink($title, $this->url('scripto', ['action' => 'index'], true), ['class' => 'site-title']); ?>-->
 	 <!--<?php echo $this->hyperlink($this->translate('Browse projects'), "http://3.134.136.76/omeka-s/scripto",['class' => 'site-title']); ?>-->
-	 <div class="logo-wrapper">
-          <a class="scripto-logo" href="http://<?php echo $_SERVER['SERVER_NAME'];?>/omeka-s/s/oswego-transcribe/page/welcome"><img src="http://<?php echo $_SERVER['SERVER_NAME']?>/omeka-s/files/images/logos/new-logo-black.jpg" alt="test"></a>
+		<div class="logo-wrapper">
+        		<a class="scripto-logo" href="http://<?php echo $_SERVER['SERVER_NAME'];?>/omeka-s/s/oswego-transcribe/page/welcome"><img src="http://<?php echo $_SERVER['SERVER_NAME']?>/omeka-s/files/images/logos/new-logo-black.jpg" alt="Oswego Transcribe"></a>
 		</div>
-             <nav class="top-nav">
-                <input type="checkbox" id="nav-trigger" class="nav-trigger" aria-label="<?php echo $this->translate('Toggle menu'); ?>"/>
-                <label for="nav-trigger">
-                    <span class="menu-icon"></span>
-                </label>
-                <div class="scripto-trigger">
-		    <div class="site-nav">
-                       <div class="nav-other">
-		        <?php echo $this->scripto()->publicAppProjectLink(); ?>
-			<!-- <?php echo $this->hyperlink($this->translate('Collections'), "http://3.134.136.76/omeka-s/scripto/project", ['class' => 'page-link']); ?>-->
-		       <!-- <?php echo $this->scripto()->publicAppSiteLink(); ?>-->
-		       <a class="page-link" href="http://3.134.136.76/omeka-s/s/oswego-transcribe/page/view-far"> View FAQ </a>
-                       </div>
-		       <div class="nav-account">
-                	<?php echo $this->scripto()->loginBar(); ?>
-                        <?php if (!$this->scripto()->apiClient()->userIsLoggedIn()): ?>
-                        <?php echo $this->hyperlink($this->translate('Sign up'), $this->url('scripto', ['action' => 'create-account'], true), ['class' => 'signup-btn']); ?>
-			<?php endif; ?>
-                       </div>
-                    </div>
-                    <?php if (isset($project)): ?>
-                    <div class="project-nav">
+		<nav class="top-nav">
+                	<input type="checkbox" id="nav-trigger" class="nav-trigger" aria-label="<?php echo $this->translate('Toggle menu'); ?>"/>
+                	<label for="nav-trigger">
+                	    <span class="menu-icon"></span>
+                	</label>
+                	<div class="scripto-trigger">
+			    <div class="site-nav">
+                	       <div class="nav-other">
+			        <?php echo $this->scripto()->publicAppProjectLink(); ?>
+				<!-- <?php echo $this->hyperlink($this->translate('Collections'), "http://3.134.136.76/omeka-s/scripto/project", ['class' => 'page-link']); ?>-->
+			       <!-- <?php echo $this->scripto()->publicAppSiteLink(); ?>-->
+			       <a class="page-link" href="http://3.134.136.76/omeka-s/s/oswego-transcribe/page/view-far"> View FAQ </a>
+                	    </div>
+		            <div class="nav-account">
+                		<?php echo $this->scripto()->loginBar(); ?>
+				<?php if (!$this->scripto()->apiClient()->userIsLoggedIn()): ?>
+				<div>
+				<?php echo $this->hyperlink($this->translate('Sign up'), $this->url('scripto', ['action' => 'create-account'], true), ['class' => 'signup-btn']); ?>
+				</div>
+				<?php endif; ?>
+                	    </div>
+               	        </div>
+                        <?php if (isset($project)): ?>
+                    	<div class="project-nav">
                         <!--<h2><?php echo $project->link($project->title()); ?></h2>-->
                         <ul>
-                            <li><?php echo $project->link($this->translate('Project guidelines'), 'guidelines'); ?></li>
-                            <li><?php echo $project->link($this->scripto()->translate($project->itemType(), 'Browse items')); ?></li>
+                            <li class="subNav-guidelines"><?php echo $project->link($this->translate('Project guidelines'), 'guidelines'); ?></li>
+                            <li class="subNav-browseItems"><?php echo $project->link($this->scripto()->translate($project->itemType(), 'Browse items')); ?></li>
                         </ul>
                         <?php
                         $searchAction = isset($sItem) ? $sItem->url() : $project->url();
@@ -90,12 +92,31 @@ $this->headScript()->appendFile($this->assetUrl('js/public-app.js', 'Scripto'));
                     </div>
                 </article>
             </div>
-        </main>
-        <footer class="site-footer h-card">
-            <div class="wrapper">
-                <h2 class="footer-heading">&#169; 2021 by Team F</h2>
-                <div id="back-to-top"><a href="#content"><?php echo $this->translate('Back to top'); ?></a></div>
-            </div>
-        </footer>
-    </body>
+	</main>
+	<footer class="scripto_footer">
+		<div class="sub-footer">
+			<div class="footer-branding-logo">
+                        	<a class="sub-logo" href="http://<?php echo $_SERVER['SERVER_NAME'];?>/omeka-s/s/oswego-transcribe/page/welcome"><img src="http://<?php echo $_SERVER['SERVER_NAME'];?>/omeka-s/files/images/logos/new-logo-white.jpg" alt="Oswego Transcribe"></a>
+                        </div>
+                        <div class="footer-branding">
+                        	<a href="#"> Contact us </a>
+                                <a href="https://www.oswego.edu/library/"> SUNY Oswego Library </a>
+                                <a href="https://www.oswego.edu/library/archives-special-collections"> SUNY Oswego Archives and Collections  </a>
+                        </div>
+                </div>
+
+                <div class="info-wrapper">
+                	<div class="info-copyrights">
+				&#169; 2021 by Team F				
+			</div>
+                        <div class="info-social">
+                                <a class="footer-fb" href="https://www.facebook.com/SUNYOswego/"><img src="http://<?php echo $_SERVER['SERVER_NAME'];?>/omeka-s/files/images/icons/fb-24.png" alt="Footer FB"></a>
+                                <a class="footer-ig" href="https://www.instagram.com/sunyoswego/"><img src="http://<?php echo $_SERVER['SERVER_NAME'];?>/omeka-s/files/images/icons/ig-24.png" alt="Footer IG"></a>
+                                <a class="footer-tt" href="https://www.twitter.com/sunyoswego/"><img src="http://<?php echo $_SERVER['SERVER_NAME'];?>/omeka-s/files/images/icons/tt-24.png" alt="Footer TT"></a>
+                                <a class="footer-yt" href="https://www.youtube.com/user/sunyoswegovideo"><img src="http://<?php echo $_SERVER['SERVER_NAME'];?>/omeka-s/files/images/icons/yt-24.png" alt="Footer YT"></a>
+			</div>
+
+                </div>
+	</footer>
+</body>
 </html>

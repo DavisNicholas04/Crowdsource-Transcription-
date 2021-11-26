@@ -1,0 +1,35 @@
+[33mcommit 1d43a0ad4385f0d62338e37119029c933326a0a2[m[33m ([m[1;36mHEAD -> [m[1;32mcst-logan[m[33m)[m
+Author: lgad31vn <lgad31vn@gmail.com>
+Date:   Thu Nov 25 16:13:53 2021 +0000
+
+    finished styling omeka s page (1.0)
+
+[33mcommit 1d34efbffc678d45e3b0c2a70c05ca6a013eaebd[m
+Author: lgad31vn <lgad31vn@gmail.com>
+Date:   Wed Nov 24 05:28:42 2021 +0000
+
+    added lots more, added icons to new icons in /files, changed theme to Cozy, styled header and footer
+
+[33mcommit b0c947df263afb61120b6c8c73a5addbf41007b1[m
+Author: lgad31vn <lgad31vn@gmail.com>
+Date:   Fri Nov 19 05:05:47 2021 +0000
+
+    Third commit: testing Zotero import, kinda fail, switching to CSV Import
+
+[33mcommit 709154885e779f024ef0a9eaf5c25ed6ec224437[m
+Author: lgad31vn <lgad31vn@gmail.com>
+Date:   Sun Nov 14 04:12:56 2021 +0000
+
+    added BulkImport, BulkImportFile, Log modules. Added fillmore pics
+
+[33mcommit 195c74ad3cb6f3bd60f48d72bdcb7f3ab043ea59[m
+Author: lgad31vn <lgad31vn@gmail.com>
+Date:   Thu Nov 11 06:49:01 2021 +0000
+
+    .
+
+[33mcommit a60f186526c97edb7b837d38fadeb276d0da0c36[m[33m ([m[1;32mmaster[m[33m)[m
+Author: root <root@ip-172-31-40-77.us-east-2.compute.internal>
+Date:   Thu Nov 11 06:15:05 2021 +0000
+
+    Cst-Logan first commit

@@ -115,9 +115,9 @@ $this->scripto()->postTitle($item->displayTitle());
                     'title' => $this->scripto()->translate($project->mediaType(), 'Primary media'),
                     'alt' => $this->scripto()->translate($project->mediaType(), 'Primary media')
                 ])); ?>
-                <h4><span class="original-number"><?php echo $sMedia->linkRaw(sprintf('#%s', $sMedia->position())); ?></span>
+                <h4><span class="original-number"><?php echo $sMedia->linkRaw(sprintf('Page #%s', $sMedia->position())); ?></span>
                 <span class="original-title"><?php echo $sMedia->linkRaw($sMedia->media()->displayTitle()); ?></span></h4>
-                <?php echo $sMedia->linkRaw($this->scripto()->translate($project->contentType(), 'Edit'), 'edit', [
+                <?php echo $sMedia->linkRaw($this->scripto()->translate($project->contentType(), 'Transcribe'), 'edit', [
                     'class' => 'edit-link',
                 ]); ?>
                 <div class="last-edited"><span class="meta-label"><?php echo $this->scripto()->translate($project->contentType(), 'Last edited'); ?></span> <?php echo $sMedia->edited() ? $this->i18n()->dateFormat($sMedia->edited(), 'long', 'medium') : $this->scripto()->translate($project->contentType(), 'Not edited'); ?></div>
