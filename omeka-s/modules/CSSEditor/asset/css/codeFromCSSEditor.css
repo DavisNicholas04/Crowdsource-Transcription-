@@ -1,0 +1,492 @@
+/*This CSS will be read from bottom to top*/
+#content{
+    min-height: 500px !important;
+}
+
+/* ------------- Media layout ---------------*/
+span.title {
+    margin-top: 90px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.media-content{
+    margin-top: 120px;
+    position: relative;
+}
+#content{
+    min-height: 900px;
+}
+
+.media-img{
+    position:absolute;
+    width: 350px;
+    right: 0;
+    display: flex;
+    justify-content: end;
+}
+
+.media-render img {
+    width: 350px;
+    height: 600px;
+}
+
+.media-values{
+   width: 70%;
+}
+
+.media-values .property {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.media-values h4 {
+    display: flex;
+    justify-content: left;
+    text-align: left;
+} 
+
+.media.resource.show .property .value {
+    max-height: 400px;   
+    overflow: auto;
+    overflow-x hidden;
+    margin-top: 5px;
+    width: 420px;
+}
+/* ------------- Item layout ---------------*/
+.media-list{
+    max-height: 945px;
+    overflow: auto;
+    overflow-x: hidden;
+    margin: 0 0 10px;
+    
+}
+
+.value{
+    max-height: 250px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+/* ------------- Item Set layout ---------------*/
+.content-wrapper{
+     position: relative;
+}
+.pagination .button:hover {
+    color: #fff;
+}
+.browse-controls{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.advanced-search, .pagination, .sorting{
+    margin-bottom: 10px;
+}
+
+.item-set-items{
+    position: absolute;
+    right: 0;
+    width: 45%;
+}
+
+.metadata{
+    width: 53%;
+    max-height: 800px;
+    overflow: auto;
+    overflow-x: hidden;
+    padding: 23px 0;
+    margin: 24px 0;
+    border-top: 1px solid #ebebea;
+    border-bottom: 1px solid #ebebea;
+}
+
+h3.item-set-header {
+    width: 53%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+h3.item-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0;
+}
+
+.item-set-desc-pagination{
+    margin-top: 15px;
+    width: 53%;
+    padding-top: 10px;
+}
+
+.uri-value-link:hover, .item-set.resource h4 a:hover, .item.resource h4 a:hover, a:hover{
+    color: #007B3F;
+}
+
+
+
+/* ------------- Site ---------------*/
+[role=main]{
+    padding: 0 24px !important;
+}
+.site-header{
+margin: 0px auto;
+}
+.site-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+a:hover{
+    opacity: 0.75;
+}
+
+
+.site-title img {
+    height: 80px;
+}
+.site-title img:hover {
+    opacity: 0.85;
+}
+
+
+/* ------------- NavBar ---------------*/
+.navigation {
+     margin-top: 15px;
+}
+
+.navigation li {
+    font-size: 1.2em;
+    text-shadow: 0px 2.5px 2.5px rgba(0, 0, 0, 0.25);
+    font-family: 'Ruda', sans-serif;
+}
+.navigation li a {
+     color: #fff !important;
+}
+.navigation li a:hover {
+     color: #86E1A8 !important;
+    opacity: 0.85;
+}
+
+/* ------------- Welcome Page ---------------*/
+.slogan {
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 75px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 2.5em;
+    font-family: 'Sansita', sans-serif;
+   
+}
+
+
+.intro {
+    margin: 7% 5%;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+    font-family: 'Saira Semi Condensed', sans-serif;
+    font-size: 1.1em;
+}
+
+.sub-slogan{
+    display: flex;
+     justify-content: center;
+     align-items: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    font-size: 2em;
+    margin: 80px -50px;
+    background: #4D535C;
+    color: #fff;
+    padding: 15px 0;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: 'Patua One', cursive;
+}
+
+.btn-wrap {
+    display: flex;
+     justify-content: center;
+     align-items: center;
+}
+
+.signup-btn{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     background: #E87433;
+     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.25);
+     border-radius: 10px;
+     padding: 10px 15px;
+     color: #fff !important;
+     font-family: 'Ruda', sans-serif;
+     font-weight: bold;
+     font-size: 1.2em;
+     margin-bottom: 50px;
+}
+
+.signup-btn:hover{
+    color: #000 !important;
+    opacity: 0.85 !important;
+}
+
+/* ------------- View FAQ Page ---------------*/
+.view-faq{
+    display: flex;
+     justify-content: center;
+     align-items: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    font-size: 2em;
+    margin: 80px -50px;
+    background: #4D535C;
+    color: #fff;
+    padding: 10px 0;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: 'Patua One', cursive;
+}
+
+.faq-ans{
+    margin: 15px 50px;
+    text-shadow: 0px 1.2px 1.2px rgba(0, 0, 0, 0.25);
+    /*font-family: 'Saira Semi Condensed', sans-serif;*/
+    font-size: 16px;
+}
+
+.faq-ques{
+    font-size: 1.5em;
+    text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    font-family: 'Ruda', sans-serif;
+    color: #6DCEBA;
+}
+
+/* ------------- Browse Page ---------------*/
+.title{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    font-size: 1.5em;
+    margin: 80px -50px;
+    background: #4D535C;
+    color: #fff;
+    padding: 10px 0;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: 'Patua One', cursive;
+}
+.item-set.resource a:hover{
+    opacity: 0.75;
+}
+.advanced-search{
+    font-size: 1.2em;
+    text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+    font-family: 'Ruda', sans-serif;
+}
+h3 {
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+    font-family: 'Ruda', sans-serif;
+   font-size: 1.3em;
+   font-weight: bold;
+}
+.value {
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+    /*font-family: 'Saira Semi Condensed', sans-serif;*/
+    width: 80%;
+   font-size: 14.5px !important;
+}
+
+.media-list{
+   margin-bottom: 20px;
+}
+
+#mapping-section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#mapping-map{
+    width: 900px;
+    border: 1px solid #000;
+    box-shadow: 0px 1.5px 1.5px rgba(0, 0, 0, 0.25);
+    margin-top: 25px;
+}
+
+/* ------------- Dashboard Page ---------------*/
+.messages {
+    list-style: none;
+}
+
+.guest-widget-label{
+    font-size: 35px;
+    margin: 60px 0 0 15%;
+    padding-top: 20px;
+}
+
+.guest-widget ul {
+    list-style-type: none;
+    margin-left: 15%;
+    margin-top: 20px;
+    padding-left: 0;
+}
+
+.guest-widget ul li {
+    font-size: 1.2em;
+    font-weight: bold;
+    line-height: 30px;
+    margin-top: 15px;
+}
+
+
+/* ------------- Login Page ---------------*/
+.forgot-password{
+    font-size: 1.2em;
+    margin-left: 28.5714285714%;
+}
+
+/* ------------- Contact Us ---------------*/
+.contact-us{
+    display: flex;
+     justify-content: center;
+     align-items: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    font-size: 2em;
+    margin: 80px -50px 30px -50px;
+    background: #4D535C;
+    color: #fff;
+    padding: 10px 0;
+    font-family: 'Patua One', cursive;
+}
+.contact-us-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#contact-us.contact-form{
+    width: 400px;
+}
+
+.field-meta{
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+    font-family: 'Lora', sans-serif;
+}
+
+.field, filed-required{
+    /*margin-left: 100px;*/
+}
+
+.contact-form #submit {
+     background: #E87433;
+     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+     border-radius: 10px;
+     padding: 10px 15px;
+     color: #fff !important;
+     font-family: 'Ruda', sans-serif;
+     font-weight: bold;
+     font-size: 1.2em;
+     
+}
+
+/* ------------- Transcribe Page ---------------*/
+.trans-title{
+     display: flex;
+     justify-content: center;
+     align-items: center;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    font-size: 2em;
+    margin: 80px -50px;
+    background: #4D535C;
+    color: #fff;
+    padding: 10px 0;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-family: 'Patua One', cursive;
+}
+
+
+/*-------------Slide text -----------*/
+.slick-list.draggable{
+     height: 250px !important;
+     margin: 15px 0 10px 0;
+}
+
+.slick-list.draggable img{
+     height: 200px !important;
+     width: 150px !important;
+}
+
+/* ------------- Footer ---------------*/
+footer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    /*justify-content: center;
+    align-items: center;*/
+    text-shadow: 0px 1.5px 1.5px rgba(0, 0, 0, 0.25);
+    font-family: 'Ruda', sans-serif;
+    font-size: 0.8em;
+    margin: 80px auto 0;
+    padding: 0 24px;
+}
+
+.sub-footer {
+    position: relative;
+    margin: 10px 0;
+     border-top: 1px solid #dfdfdf;
+}
+
+.sub-footer a img{
+    height: 80px;
+    width: 212.39px;
+}
+
+.footer-branding-logo{
+    margin-top: 15px;
+}
+
+.footer-branding{
+     position: absolute;
+     top: 10px;
+     right: 0;
+     display: flex;
+     flex-direction: column;
+    margin-top: 15px;
+}
+.footer-branding a {
+    color: #000;
+    text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+    font-size: 1.2em;
+    font-weight: light;
+}
+
+.footer-branding a:hover {
+    color: #e77433;
+}
+
+.info-wrapper {
+    position: relative;
+    border-top: 1px solid #dfdfdf;
+    padding-bottom: 30px;
+}
+
+.info-copyrights{
+    position: absolute;
+    right: 0;
+    margin-top: 10px;
+}
+
+.footer-social img {
+    margin-right: 3px;
+}
+
+.info-social {
+  margin-top: 10px;
+}
+
+.info-social img:hover{
+    opacity: 0.8;
+}
+
+
+
+
