@@ -1,6 +1,6 @@
 Original Repository: https://github.com/CSC380-Team-F/CST-TeamF-Implementation
 
-### Live: http://3.134.136.76/omeka-s/
+### (not currently)Live: http://3.134.136.76/omeka-s/
 
 # CST-TeamF-Implementation
 # Omeka S
